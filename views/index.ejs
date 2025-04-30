@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Home</title>
+  </head>
+  <body>
+    <%- include('partials/nav') %>
+    <h1>Home</h1>
+    <div class="messages">
+      <% messages.forEach(message => { %>
+      <div class="message">
+        <p class="name"><strong>Name:</strong> <%- message.user %></p>
+        <p class="messageText"><strong>Message:</strong> <%- message.text %></p>
+        <p class="date"><strong>Date added:</strong> <%- message.added %></p>
+        <form action="/messages/<%= message.id %>" method="get">
+          <button type="submit">Open</button>
+        </form>
+      </div>
+      <% }) %>
+    </div>
+  </body>
+</html>
