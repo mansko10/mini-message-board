@@ -8,17 +8,12 @@ app.use(express.static(assetsPath));
 app.use(express.urlencoded({ extended: true }));
 
 // Router imports
-const indexRouter = require("./routes/indexRouter");
-const newMessageRouter = require("./routes/newMessageRouter");
+const usersRouter = require("./routes/usersRouter");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use("/new", newMessageRouter);
-app.use("/messages", indexRouter);
-app.get("/", (req, res) => {
-  res.redirect("/messages");
-});
+app.use("/", usersRouter);
 
 const PORT = 3000;
 app.listen(PORT, () => {

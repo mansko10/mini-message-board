@@ -1,7 +1,3 @@
-const { Router } = require("express");
-
-const indexRouter = Router();
-
 function generateString(length) {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -29,18 +25,22 @@ const messages = [
   },
 ];
 
-indexRouter.get("/", (req, res) => {
+async function getUsernames(req, res) {
   res.render("index", { messages });
-});
+}
 
-indexRouter.get("/:messageId", (req, res) => {
+async function getUsername(req, res) {
   const message = messages.find(
     (message) => message.id === req.params.messageId
   );
   res.render("message", { message: message });
-});
+}
 
-indexRouter.post("/postmessage", (req, res) => {
+async function createMessageGet(req, res) {
+  res.render("newMessage");
+}
+
+async function createMessagePost(req, res) {
   const { body } = req;
   const newMessage = {
     text: body.text,
@@ -50,6 +50,11 @@ indexRouter.post("/postmessage", (req, res) => {
   };
   messages.push(newMessage);
   res.redirect("/messages");
-});
+}
 
-module.exports = indexRouter;
+module.exports = {
+  getUsernames,
+  getUsername,
+  createMessageGet,
+  createMessagePost,
+};
