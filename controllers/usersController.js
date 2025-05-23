@@ -1,38 +1,40 @@
-function generateString(length) {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = " ";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
+// function generateString(length) {
+//   const characters =
+//     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//   let result = " ";
+//   const charactersLength = characters.length;
+//   for (let i = 0; i < length; i++) {
+//     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+//   }
 
-  return result;
-}
+//   return result;
+// }
 
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    id: generateString(5),
-    added: new Date(),
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    id: generateString(5),
-    added: new Date(),
-  },
-];
+// const messages = [
+//   {
+//     text: "Hi there!",
+//     user: "Amando",
+//     id: generateString(5),
+//     added: new Date(),
+//   },
+//   {
+//     text: "Hello World!",
+//     user: "Charles",
+//     id: generateString(5),
+//     added: new Date(),
+//   },
+// ];
+
+const db = require("../db/queries");
 
 async function getUsernames(req, res) {
+  const messages = await db.getAllMessages();
+
   res.render("index", { messages });
 }
 
 async function getUsername(req, res) {
-  const message = messages.find(
-    (message) => message.id === req.params.messageId
-  );
+  const message = await db.getMessage(req.params.messageId);
   res.render("message", { message: message });
 }
 
@@ -42,13 +44,8 @@ async function createMessageGet(req, res) {
 
 async function createMessagePost(req, res) {
   const { body } = req;
-  const newMessage = {
-    text: body.text,
-    user: body.name,
-    id: generateString(5),
-    added: new Date(),
-  };
-  messages.push(newMessage);
+
+  await db.insertMessage(body.text, body.name);
   res.redirect("/messages");
 }
 

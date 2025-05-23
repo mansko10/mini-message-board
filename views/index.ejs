@@ -12,9 +12,13 @@
     <div class="messages">
       <% messages.forEach(message => { %>
       <div class="message">
-        <p class="name"><strong>Name:</strong> <%- message.user %></p>
-        <p class="messageText"><strong>Message:</strong> <%- message.text %></p>
-        <p class="date"><strong>Date added:</strong> <%- message.added %></p>
+        <p class="name"><strong>Name:</strong> <%- message.username %></p>
+        <p class="messageText">
+          <strong>Message:</strong> <%- message.message %>
+        </p>
+        <p class="date">
+          <strong>Date added:</strong> <%- message.time_stamp %>
+        </p>
         <form action="/messages/<%= message.id %>" method="get">
           <button type="submit">Open</button>
         </form>
